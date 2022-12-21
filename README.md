@@ -69,6 +69,7 @@ Change image in line 19 of producer.yaml and consumer.yaml
 -        - image: coverthe/producer_test_1:latest
 +        - image: your-image           
 ```
+Don't forget change ENV for your app
 
 ## Testing
 
