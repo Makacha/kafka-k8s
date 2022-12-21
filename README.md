@@ -71,7 +71,36 @@ Change image in line 19 of producer.yaml and consumer.yaml
 ```
 
 ## Testing
-Testing kafka
+
+### Testing producer
+
+If using image coverthe/producer_test_1:latest, you can log producer
+```
+$ kubectl get pods
+NAME                READY   STATUS             RESTARTS        AGE
+<producer-pod-id>   1/1     Running            0               65m
+$ kubectl logs <producer-pod-id> -n kafka
+Kafka IP: kafka-service:9092
+Send: {'symbol': 'AMZN', 'price': 0.796684434732368, 'time': '2022/12/21, 10:23:25'}
+Send: {'symbol': 'AMZN', 'price': 0.4557338291280737, 'time': '2022/12/21, 10:23:31'}
+Send: {'symbol': 'AMZN', 'price': 0.3420806457344633, 'time': '2022/12/21, 10:23:37'}
+```
+
+### Testing consumer
+
+If using image coverthe/consumer_test_1:latest, you can log consumer
+```
+$ kubectl get pods
+NAME                READY   STATUS             RESTARTS        AGE
+<consumer-pod-id>   1/1     Running            0               65m
+$ kubectl logs <consumer-pod-id> -n kafka
+Kafka IP: kafka-service:9092
+Receive: {'symbol': 'AMZN', 'price': 0.796684434732368, 'time': '2022/12/21, 10:23:25'}
+Receive: {'symbol': 'AMZN', 'price': 0.4557338291280737, 'time': '2022/12/21, 10:23:31'}
+Receive: {'symbol': 'AMZN', 'price': 0.3420806457344633, 'time': '2022/12/21, 10:23:37'}
+```
+
+### Testing kafka
 ```
 $ kubectl get pods
 NAME             READY   STATUS             RESTARTS        AGE
