@@ -15,6 +15,36 @@ spec:
   selector:
     app: kafka
 ---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: kafka-pv
+  labels:
+    type: local
+  namespace: kafka
+spec:
+  storageClassName: my-storage
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /mnt/data/kafka
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kafka-pvc
+  namespace: kafka
+spec:
+  storageClassName: my-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 4Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -46,3 +76,10 @@ spec:
         name: kafka
         ports:
         - containerPort: 9092
+        volumeMounts:
+        - mountPath: "/var/lib/kafka/data"
+          name: kafka-pv
+      volumes:
+      - name: kafka-pv
+        persistentVolumeClaim:
+          claimName: kafka-pvc

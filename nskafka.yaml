@@ -4,3 +4,17 @@ metadata:
   name: "kafka"
   labels:
     name: "kafka"
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: my-storage
+  namespace: kafka
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: my-storage
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+mountOptions:
+  - debug
+volumeBindingMode: Immediate
